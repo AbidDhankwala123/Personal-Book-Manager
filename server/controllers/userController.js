@@ -30,11 +30,15 @@ const registerUser = async (req, res, next) => {
         }
 
         const encryptedPassword = await bcrypt.hash(password, 10);
-        await User.create({ name, email, password: encryptedPassword });
+        const user = await User.create({ name, email, password: encryptedPassword });
+
+        const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         res.status(201).json({
             status: "SUCCESS",
             message: "User registered successfully",
+            jwtToken,
+            name: user.name
         })
     } catch (error) {
         next(error);
@@ -62,7 +66,6 @@ const loginUser = async (req, res, next) => {
                 res.status(200).json({
                     status: "SUCCESS",
                     name: user.name,
-                    id: user._id,
                     message: "You are Logged In Successfully",
                     jwtToken
                 })
