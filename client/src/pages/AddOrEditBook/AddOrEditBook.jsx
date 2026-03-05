@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styles from "./AddOrEditBook.module.css"
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from "axios"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
+import BookContext from '../../context/BookContext'
 
-const AddOrEditBook = ({ loading, setLoading, listBooks, setSuccessMessage, editBook }) => {
+const AddOrEditBook = () => {
+    const { loading, setLoading, listBooks, setSuccessMessage, editBook } = useContext(BookContext);
     const navigate = useNavigate();
     const { bookId } = useParams();
     const [title, setTitle] = useState("");
@@ -32,8 +34,8 @@ const AddOrEditBook = ({ loading, setLoading, listBooks, setSuccessMessage, edit
                     setStatus(response.data.book.status);
                 })
                 .catch(error => {
-                    console.error(error.response.data.message);
-                    toast.error(error.response.data.message, {
+                    console.error(error.response?.data?.message);
+                    toast.error(error.response?.data?.message, {
                         position: "top-center",
                         autoClose: 2000
                     })
@@ -63,7 +65,7 @@ const AddOrEditBook = ({ loading, setLoading, listBooks, setSuccessMessage, edit
                 setSuccessMessage(response.data.message);
             })
             .catch(error => {
-                console.error(error.response.data.message);
+                console.error(error.response?.data?.message);
                 if (error.response.status === 401) {
                     toast.error("Invalid Session or Session expired. Please Log In again", {
                         position: "top-center",
@@ -73,7 +75,7 @@ const AddOrEditBook = ({ loading, setLoading, listBooks, setSuccessMessage, edit
                     setTimeout(() => navigate("/login"), 2000);
                     return;
                 }
-                toast.error(error.response.data.message, {
+                toast.error(error.response?.data?.message, {
                     position: "top-center",
                     autoClose: 2000
                 })

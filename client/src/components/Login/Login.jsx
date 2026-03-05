@@ -1,11 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styles from "./Login.module.css"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
+import BookContext from '../../context/BookContext';
 
-const Login = ({ setLoading, loading, logoutMessage }) => {
+const Login = () => {
+    const { setLoading, loading, logoutMessage, setLogoutMessage } = useContext(BookContext);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -21,11 +23,15 @@ const Login = ({ setLoading, loading, logoutMessage }) => {
     };
 
     useEffect(() => {
-        logoutMessage && toast.success(logoutMessage, {
+        if (!logoutMessage) return;
+
+        toast.success(logoutMessage, {
             position: "top-center",
             autoClose: 2000
-        })
-    }, [logoutMessage])
+        });
+
+        setLogoutMessage("");
+    }, [logoutMessage]);
 
     const validate = () => {
         let temp = {};
@@ -64,16 +70,16 @@ const Login = ({ setLoading, loading, logoutMessage }) => {
         })
             .then(response => {
                 console.log(response);
-                navigate("/dashboard");
                 localStorage.setItem("jwtToken", response.data.jwtToken);
                 localStorage.setItem("name", response.data.name);
                 localStorage.setItem("showWelcome", "true");
+                navigate("/dashboard");
                 setFormData({ email: "", password: "" });
                 setErrors({});
             })
             .catch(error => {
-                console.error(error.response.data);
-                toast.error(error.response.data.message, {
+                console.error(error.response?.data?.message);
+                toast.error(error.response?.data?.message, {
                     position: "top-center",
                     autoClose: 2000
                 })

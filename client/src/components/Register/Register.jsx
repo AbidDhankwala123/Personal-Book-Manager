@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import styles from "./Register.module.css";
 import axios from "axios"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
+import BookContext from "../../context/BookContext";
 
-const Register = ({ setLoading, loading }) => {
+const Register = () => {
+    const { setLoading, loading } = useContext(BookContext);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -80,8 +82,8 @@ const Register = ({ setLoading, loading }) => {
                 setErrors({});
             })
             .catch(error => {
-                console.error(error.response.data.message);
-                toast.error(error.response.data.message, {
+                console.error(error.response?.data?.message);
+                toast.error(error.response?.data?.message, {
                     position: "top-center",
                     autoClose: 2000
                 })

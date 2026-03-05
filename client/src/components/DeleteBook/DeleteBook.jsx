@@ -3,9 +3,11 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import BookContext from "../../context/BookContext";
 
-const DeleteBook = ({ setDeletePopup, deleteBookId, listBooks, loading, setLoading }) => {
-
+const DeleteBook = () => {
+  const { setDeletePopup, setDeleteBookId, deleteBookId, listBooks, loading, setLoading } = useContext(BookContext);
   const navigate = useNavigate();
 
   const handleDeleteBook = () => {
@@ -27,7 +29,7 @@ const DeleteBook = ({ setDeletePopup, deleteBookId, listBooks, loading, setLoadi
         listBooks();
       })
       .catch(error => {
-        console.error(error.response.data.message);
+        console.error(error.response?.data?.message);
         if (error.response.status === 401) {
           toast.error("Invalid Session or Session expired. Please Log In again", {
             position: "top-center",
@@ -39,7 +41,7 @@ const DeleteBook = ({ setDeletePopup, deleteBookId, listBooks, loading, setLoadi
           }, 2000);
           return;
         }
-        toast.error(error.response.data.message, {
+        toast.error(error.response?.data?.message, {
           position: "top-center",
           autoClose: 2000
         })
@@ -48,13 +50,18 @@ const DeleteBook = ({ setDeletePopup, deleteBookId, listBooks, loading, setLoadi
         setLoading(false);
       })
   }
+  const handleCancel = () => {
+    setDeletePopup(false);
+    setDeleteBookId("");
+  }
+
   return (
     <div className={styles.deleteBook_container}>
       <div className={styles.deleteBook_popup}>
         <p>Are you confirm you want to delete?</p>
         <div className={styles.btn_container}>
           <button onClick={handleDeleteBook} disabled={loading}>{loading ? "Deleting..." : "Confirm Delete"}</button>
-          <button onClick={() => setDeletePopup(false)}>Cancel</button>
+          <button onClick={handleCancel}>Cancel</button>
         </div>
       </div>
     </div>

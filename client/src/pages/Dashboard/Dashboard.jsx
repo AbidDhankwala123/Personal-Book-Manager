@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import search from "../../assets/search.png"
 import styles from "./Dashboard.module.css"
 import { useNavigate } from "react-router-dom";
@@ -6,12 +6,12 @@ import DeleteBook from "../../components/DeleteBook/DeleteBook";
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
+import BookContext from "../../context/BookContext";
 
-const Dashboard = ({ editBook, listBooks, books, count, loading, setLoading, successMessage, setSuccessMessage, setLogoutMessage }) => {
+const Dashboard = () => {
 
+    const { showDeletePopup, setDeletePopup, setDeleteBookId, editBook, listBooks, books, count, loading, successMessage, setSuccessMessage, setLogoutMessage } = useContext(BookContext);
     const navigate = useNavigate();
-    const [showDeletePopup, setDeletePopup] = useState(false);
-    const [deleteBookId, setDeleteBookId] = useState("");
 
     const [status, setStatus] = useState("");
     const [statusArray, setStatusArray] = useState([]);
@@ -48,9 +48,9 @@ const Dashboard = ({ editBook, listBooks, books, count, loading, setLoading, suc
     }
 
     const handleLogout = () => {
+        setLogoutMessage("You are Logged Out Successfully");
         localStorage.clear();
         navigate("/login");
-        setLogoutMessage("You are Logged Out Successfully");
     }
 
     const handleChange = e => {
@@ -134,9 +134,9 @@ const Dashboard = ({ editBook, listBooks, books, count, loading, setLoading, suc
                         <div style={{ display: "flex", gap: "0.5rem" }}>
                             <strong>Tags:</strong>
                             <div className={styles.tags}>
-                                {book.tags?.map((tag, idx) => {
+                                {book.tags?.map((tag) => {
                                     return (
-                                        <span key={idx}>{tag}</span>
+                                        <span key={tag}>{tag}</span>
                                     )
                                 })}
                             </div>
@@ -157,7 +157,7 @@ const Dashboard = ({ editBook, listBooks, books, count, loading, setLoading, suc
                 )
             }) : <p><strong>Books not Found!</strong></p>}
 
-            {showDeletePopup && <DeleteBook loading={loading} setLoading={setLoading} setDeletePopup={setDeletePopup} listBooks={listBooks} deleteBookId={deleteBookId} />}
+            {showDeletePopup && <DeleteBook />}
         </div>
     )
 }
