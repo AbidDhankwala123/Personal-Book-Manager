@@ -8,12 +8,14 @@ Hey there! This is my Personal Book Manager app — a simple web application to 
 - See all your books in a neat list
 - Update any book’s info
 - Delete books you no longer need
+- Filter the books by tags and status
 
 ## Tech Stack 🛠️
 
 - **Frontend:** React.js
-- **Backend:** Node.js + Express
-- **Database:** MongoDB (or whatever you’re using)
+- **Backend:** Node.js + Express.js
+- **Database:** MongoDB Atlas
+- **Styling:** Vanilla css (module.css)
 - **API:** RESTful
 
 ---
