@@ -29,7 +29,7 @@ export const BookContextProvider = ({ children }) => {
         console.log("STATUS ARRAY:", statusArray);
         console.log("TAGS ARRAY:", tagsArray);
 
-        axios.get("http://localhost:5000/books", {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL_FOR_BOOK}/books`, {
             headers: {
                 Authorization: "Bearer " + jwtToken
             },
@@ -78,7 +78,7 @@ export const BookContextProvider = ({ children }) => {
 
     const editBook = (bookId, bookDetailsObject) => {
         setLoading(true);
-        axios.patch(`http://localhost:5000/updateBook/${bookId}`, bookDetailsObject,
+        axios.patch(`${process.env.REACT_APP_BACKEND_URL_FOR_BOOK}/updateBook/${bookId}`, bookDetailsObject,
             {
                 headers: {
                     "Content-Type": "application/json",

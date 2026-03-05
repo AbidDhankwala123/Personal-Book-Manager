@@ -67,7 +67,7 @@ const Register = () => {
         if (validate()) return;
 
         setLoading(true);
-        axios.post("http://localhost:5000/register", formData, {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL_FOR_AUTH}/register`, formData, {
             headers: {
                 "Content-Type": "application/json"
             }

@@ -12,7 +12,7 @@ const DeleteBook = () => {
 
   const handleDeleteBook = () => {
     setLoading(true);
-    axios.delete(`http://localhost:5000/deleteBook/${deleteBookId}`,
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL_FOR_BOOK}/deleteBook/${deleteBookId}`,
       {
         headers:
         {

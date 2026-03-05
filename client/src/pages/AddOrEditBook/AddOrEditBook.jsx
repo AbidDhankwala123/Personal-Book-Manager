@@ -19,7 +19,7 @@ const AddOrEditBook = () => {
 
     useEffect(() => {
         if (bookId) {
-            axios.get(`http://localhost:5000/book/${bookId}`,
+            axios.get(`${process.env.REACT_APP_BACKEND_URL_FOR_BOOK}/book/${bookId}`,
                 {
                     headers:
                     {
@@ -52,7 +52,7 @@ const AddOrEditBook = () => {
 
     const addBook = () => {
         setLoading(true);
-        axios.post("http://localhost:5000/addBook", bookDetailsObject,
+        axios.post(`${process.env.REACT_APP_BACKEND_URL_FOR_BOOK}/addBook`, bookDetailsObject,
             {
                 headers: {
                     "Content-Type": "application/json",
