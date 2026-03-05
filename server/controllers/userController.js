@@ -36,7 +36,7 @@ const registerUser = async (req, res, next) => {
 
         res.status(201).json({
             status: "SUCCESS",
-            message: "User registered successfully",
+            message: "You are registered successfully",
             jwtToken,
             name: user.name
         })

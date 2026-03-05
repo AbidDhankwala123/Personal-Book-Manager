@@ -31,6 +31,28 @@ const getBooks = async (req, res, next) => {
     }
 };
 
+const getBookById = async (req, res, next) => {
+    try {
+        const { bookId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(bookId)) {
+            return next(new AppError("Invalid Id format", 400));
+        }
+
+        const book = await Book.findById(bookId);
+        if (!book) {
+            return next(new AppError("Book not found", 404));
+        }
+
+        res.status(200).json({
+            status: "SUCCESS",
+            book
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
 const addBook = async (req, res, next) => {
     try {
         const { title, author, tags, status } = req.body;
@@ -45,15 +67,12 @@ const addBook = async (req, res, next) => {
             return next(new AppError("Invalid Id format", 400));
         }
 
-        if (tags && !Array.isArray(tags)) {
-            return next(new AppError("Tags must be an array", 400));
-        }
-
         if (status !== undefined && !["Want to Read", "Reading", "Completed"].includes(status)) {
             return next(new AppError("Invalid status value", 400))
         }
 
-        const book = await Book.create({ userId, title, author, tags, status });
+        const tagsArray = typeof tags === 'string' ? tags.split(",").map(tag => tag.trim()) : tags;
+        const book = await Book.create({ userId, title, author, tags: tagsArray, status });
         res.status(201).json({
             status: "SUCCESS",
             message: "Book added successfully",
@@ -98,7 +117,7 @@ const updateBook = async (req, res, next) => {
             return next(new AppError("Invalid Id format", 400));
         }
 
-        const book = await Book.findByIdAndUpdate(bookId, { title, author, tags, status }, { new: true, runValidators: true });
+        const book = await Book.findByIdAndUpdate(bookId, { title, author, tags: typeof tags === 'string' ? tags.split(",").map(tag => tag.trim()) : tags, status }, { new: true, runValidators: true });
         if (!book) {
             return next(new AppError("Book not found", 404));
         }
@@ -112,4 +131,4 @@ const updateBook = async (req, res, next) => {
     }
 }
 
-module.exports = { getBooks, addBook, deleteBook, updateBook }
+module.exports = { getBooks, addBook, deleteBook, updateBook, getBookById }

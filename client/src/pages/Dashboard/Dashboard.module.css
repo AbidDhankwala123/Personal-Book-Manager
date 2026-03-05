@@ -1,0 +1,182 @@
+.dashboard {
+    display: flex;
+    /* border: 3px solid red; */
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    /* justify-content: space-aroun; */
+}
+
+.logout_btn {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.logout_btn button {
+    background: var(--pink-color);
+    border: none;
+    height: 5vh;
+    width: 7vw;
+    font-size: 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: white;
+}
+
+.filterbooks_container,
+.list_books {
+    background: #FFF;
+    box-shadow: 0px 0px 18px 4px rgba(255, 32, 32, 0.25);
+    width: 75%;
+    margin-bottom: 20px;
+}
+
+.filterbooks_container {
+    margin-top: 20px;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.status_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.selected_status {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 75%;
+}
+
+.selected_status>div {
+    margin: 10px;
+}
+
+.selected_status>div>span {
+    padding: 5px;
+}
+
+.selected_status>div>span:first-child {
+    background: #FEE;
+    border-radius: 3px 0 0 3px;
+}
+
+.selected_status>div>span:last-child {
+    border-radius: 0 3px 3px 0;
+    cursor: pointer;
+    color: white;
+    background: #FF6B6B;
+}
+
+.status_dropdown {
+    width: 15%;
+    height: 6vh;
+    border: 2px solid #E3E3E3;
+    border-radius: 9px;
+    padding-left: 10px;
+}
+
+.clear_and_addbook_btn {
+    display: flex;
+    /* border: 3px solid black; */
+    gap: 1rem;
+}
+
+.search_icon {
+    position: relative;
+    top: 5px;
+    left: 50px;
+}
+
+.type_tag {
+    padding-left: 60px;
+    width: 80%;
+    height: 50px;
+    border-radius: 9px;
+    border: 2px solid #E3E3E3;
+    font-size: 23px;
+}
+
+.clear_btn {
+    color: #ED5353;
+    background: none;
+}
+
+.btns,
+.edit_delete_btns button {
+    cursor: pointer;
+    width: 7vw;
+    height: 5vh;
+    border-radius: 6px;
+    border: 2px solid var(--pink-color);
+}
+
+.addbook_btn,
+.edit_delete_btns button {
+    cursor: pointer;
+    height: 5vh;
+    color: white;
+    background-color: #ED5353;
+    border-radius: 6px;
+
+}
+
+.list_books {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* justify-content: space-between; */
+    height: 30vh;
+    padding: 0 20px;
+}
+
+.tags {
+    /* border: 3px solid red; */
+    height: 10vh;
+    width: 20vw;
+}
+
+.tags span {
+    background-color: var(--pink-color);
+    color: white;
+    border-radius: 6px;
+    /* border: 3px solid red; */
+    margin: 5px;
+    padding: 3px 7px;
+    height: 8vh;
+    width: 7vw;
+    /* text-align: center; */
+}
+
+.edit_delete_btns {
+    width: 30vw;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    right: 1rem;
+    bottom: 3rem;
+}
+
+.edit_delete_btns select {
+    border-radius: 6px;
+}
+
+.edit_delete_btns button:nth-child(2) {
+    border: none;
+    border: 2px solid #ED5353;
+    color: #ED5353;
+    background-color: white;
+}
+
+.edit_delete_btns button:last-child {
+    color: white;
+    background-color: #ED5353;
+}
