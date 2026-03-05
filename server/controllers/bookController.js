@@ -4,19 +4,30 @@ const AppError = require("../utils/AppError");
 
 const getBooks = async (req, res, next) => {
     try {
-        const { tags, status } = req.query;
+
+        let { status, tags, "status[]": statusArr, "tags[]": tagsArr } = req.query;
+
+        status = status || statusArr;
+        tags = tags || tagsArr;
+
+        if (status && !Array.isArray(status)) status = [status];
+        if (tags && !Array.isArray(tags)) tags = [tags];
 
         const filter = {
             userId: req.user.id
         };
 
-        if (status) {
-            filter.status = Array.isArray(status) ? { $in: status } : status;
+        if (status?.length) {
+            filter.status = { $in: status };
         }
 
-        if (tags) {
-            filter.tags = Array.isArray(tags) ? { $in: tags } : { $in: [tags] };
+        if (tags?.length) {
+
+            const regexTags = tags.map(tag => new RegExp(tag, "i"));
+
+            filter.tags = { $in: regexTags };
         }
+        console.log("FILTER:", filter);
 
         const books = await Book.find(filter);
 

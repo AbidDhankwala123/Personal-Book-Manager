@@ -66,7 +66,7 @@ const AddOrEditBook = () => {
             })
             .catch(error => {
                 console.error(error.response?.data?.message);
-                if (error.response.status === 401) {
+                if (error.response?.status === 401) {
                     toast.error("Invalid Session or Session expired. Please Log In again", {
                         position: "top-center",
                         autoClose: 2000

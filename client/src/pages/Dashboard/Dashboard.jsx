@@ -15,10 +15,18 @@ const Dashboard = () => {
 
     const [status, setStatus] = useState("");
     const [statusArray, setStatusArray] = useState([]);
+    const [tagsInput, setTagsInput] = useState("");
 
     useEffect(() => {
-        listBooks();
-    }, [listBooks]);
+
+        const tagsArray = tagsInput
+            .split(",")
+            .map(tag => tag.trim())
+            .filter(tag => tag !== "");
+
+        listBooks(statusArray, tagsArray);
+
+    }, [statusArray, tagsInput, listBooks]);
 
     useEffect(() => {
         if (!successMessage) return;
@@ -85,8 +93,7 @@ const Dashboard = () => {
             <div className={styles.filterbooks_container}>
                 <div>
                     <img src={search} className={styles.search_icon} alt='search' />
-                    <input type="text" name='tags' placeholder='Type any tag' className={styles.type_tag} />
-
+                    <input type="text" name='tags' placeholder='Type tags (comma separated)' value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className={styles.type_tag} />
                 </div>
 
                 <div className={styles.status_container}>

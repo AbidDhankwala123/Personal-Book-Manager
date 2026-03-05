@@ -20,43 +20,61 @@ export const BookContextProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const listBooks = useCallback(() => {
+    const listBooks = useCallback((statusArray = [], tagsArray = []) => {
+
         if (!jwtToken) return;
+
         setLoading(true);
-        axios.get("http://localhost:5000/books",
-            {
-                headers:
-                {
-                    "Authorization": "Bearer " + jwtToken
-                }
-            })
+
+        console.log("STATUS ARRAY:", statusArray);
+        console.log("TAGS ARRAY:", tagsArray);
+
+        axios.get("http://localhost:5000/books", {
+            headers: {
+                Authorization: "Bearer " + jwtToken
+            },
+            params: {
+                status: statusArray,
+                tags: tagsArray
+            }
+        })
             .then(response => {
-                console.log(response);
+
+                console.log("RESPONSE:", response.data);
+
                 setBooks(response.data.books);
-                setCount(response.data.count)
+                setCount(response.data.count);
+
             })
             .catch(error => {
-                console.error(error.response?.data?.message);
-                if (error.response.status === 401) {
+
+                if (error.response?.status === 401) {
+
                     toast.error("Invalid Session or Session expired. Please Log In again", {
                         position: "top-center",
                         autoClose: 2000
                     });
+
                     localStorage.clear();
+
                     setTimeout(() => {
                         navigate("/login");
                     }, 2000);
+
                     return;
                 }
+
                 toast.error(error.response?.data?.message, {
                     position: "top-center",
                     autoClose: 1000
-                })
+                });
+
             })
             .finally(() => {
                 setLoading(false);
-            })
-    }, [jwtToken, navigate])
+            });
+
+    }, [jwtToken, navigate]);
 
     const editBook = (bookId, bookDetailsObject) => {
         setLoading(true);
@@ -75,7 +93,7 @@ export const BookContextProvider = ({ children }) => {
             })
             .catch(error => {
                 console.error(error.response?.data?.message);
-                if (error.response.status === 401) {
+                if (error.response?.status === 401) {
                     toast.error("Invalid Session or Session expired. Please Log In again", {
                         position: "top-center",
                         autoClose: 2000
